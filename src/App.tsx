@@ -1,26 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import LoginPage from "./Components/Login/login";
+import { auth } from "./Firebase/firebase.utils";
+import Chatbox from "./Components/Chat/Chatbox";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface Users {
+  displayName: string;
+  email: string;
 }
+
+const App: React.FC = () => {
+  const [currentUser, setUser] = useState<Users | null>(null);
+  useEffect(() => {
+    let unsubscribe: () => void;
+    unsubscribe = auth.onAuthStateChanged((user: any) => {
+      if (user) {
+        const { displayName, email } = user;
+        setUser({ displayName, email });
+      } else {
+        setUser(null);
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route
+          path="/"
+          render={(props) => {
+            if (currentUser) return <Chatbox user={currentUser} {...props} />;
+            return <LoginPage {...props} />;
+          }}
+        />
+      </Switch>
+    </BrowserRouter>
+  );
+};
 
 export default App;
