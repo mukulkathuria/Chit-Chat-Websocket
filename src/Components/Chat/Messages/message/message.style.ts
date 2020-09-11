@@ -14,7 +14,7 @@ export const GroupDiv = styled.div<Users>`
   flex-direction: column;
   background-color:${props => props.user ? "blue" : "green"};
   padding:5px;
-  padding-right:${props => props.user ? "30px" : "10px"};
+  padding-right:${props => props.user ? "20px" : "10px"};
   padding-left:${props => props.user ? "10px" : "30px"};
   border-radius:5px;
   margin:3px 0;
@@ -23,7 +23,14 @@ export const GroupDiv = styled.div<Users>`
 export const UserDiv = styled.div`
     font-weight:600;
 `;
-export const MessageDiv = styled.div``;
+export const MessageDiv = styled.div`
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  .msg{
+    margin-right:1rem;
+  }
+`;
 export const Timestamp = styled.div`
-    font-size:8px;
+    font-size:10px;
 `;

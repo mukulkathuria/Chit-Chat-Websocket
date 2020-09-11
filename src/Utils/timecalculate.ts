@@ -5,12 +5,12 @@ export const timeCal: (e: Date) => string = (date: Date) => {
   let min:number = Math.floor(restime / 60) % 60;
   let seconds:number = Math.floor(restime % 60);
   if (days >= 1) {
-    return days + "day";
+    return days + " day";
   } else if (hours >= 1) {
-    return hours + "hr";
+    return hours + " hr";
   } else if (min >= 1) {
-    return min + "min";
+    return min + " min";
   } else {
-    return seconds + "secs";
+    return seconds + " sec";
   }
 };

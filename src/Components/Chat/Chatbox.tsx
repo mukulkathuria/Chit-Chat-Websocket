@@ -4,6 +4,7 @@ import socket from "../../services/sockets";
 import HeaderChat from "./Header/headchat";
 import MessageBox from "./Messages/messages";
 import { auth } from "../../Firebase/firebase.utils";
+import { MainDiv } from "./chatbox.style";
 
 interface Userinfo {
   displayName: string;
@@ -18,8 +19,8 @@ const Chatbox: React.FC<Props> = ({ user, history }) => {
   const [messages, setmessages] = useState<any>([]);
 
   useEffect(() => {
-    let room = localStorage.getItem("chatroom")
-    if(!room){
+    let room = localStorage.getItem("chatroom");
+    if (!room) {
       auth.signOut();
     }
     socket.emit("join", { user: user.displayName, room }, () => {
@@ -30,7 +31,7 @@ const Chatbox: React.FC<Props> = ({ user, history }) => {
       socket.emit("disconnect");
       socket.off("connection");
     };
-  }, [user,history]);
+  }, [user, history]);
   useEffect(() => {
     socket.once("message", (message: any) => {
       setmessages(messages.concat(message));
@@ -40,11 +41,11 @@ const Chatbox: React.FC<Props> = ({ user, history }) => {
     socket.emit("sendmessage", { user: user.displayName, message: v });
   };
   return (
-    <div>
+    <MainDiv>
       <HeaderChat />
       <MessageBox user={user} messages={messages} />
       <SendBox messages={(value) => handleclick(value)} />
-    </div>
+    </MainDiv>
   );
 };
 export default Chatbox;
